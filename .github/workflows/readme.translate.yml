@@ -1,33 +1,22 @@
-name: Translate README
+# .github/workflows/translate.yml
+name: Translate Readme
 
 on:
-  push:
-    branches:
-      - main
-      - master
+    push:
+        branches: ['**']
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      # ISO Langusge Codes: https://cloud.google.com/translate/docs/languages  
-      - name: Adding README - Chinese Simplified
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: zh-CN
-      - name: Adding README - Chinese Traditional
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: zh-TW
-      - name: Adding README - Japanese
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: ja
-      - name: Adding README - French
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: fr
+    translate:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+              with:
+                fetch-depth: 3
+
+            - name: Auto Translate
+              uses: Lin-jun-xiang/action-translate-readme@v2 # Based on the tag
+              with:
+                token: ${{ secrets.Action_Bot }} # Based on step2 name
+                g4f_provider: g4f.Provider.DeepAi # You can change this provider
+                langs: "zh-TW,zh-CN,French,Japanese" # You can define any langs
